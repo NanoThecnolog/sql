@@ -10,10 +10,10 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
-// Middleware para interpretar JSON no corpo da requisição
+
 app.use(bodyParser.json());
 
-// Configuração da conexão com o PostgreSQL
+// Config da conexão com banco de dados
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -29,7 +29,7 @@ pool.query("SELECT NOW()", (err, res) => {
   }
 });
 
-// Rota para executar comandos SQL
+// Rotas
 app.post("/execute-sql", async (req, res) => {
   const { sql } = req.body;
 
@@ -38,7 +38,7 @@ app.post("/execute-sql", async (req, res) => {
   }
 
   try {
-    // Executa o comando SQL
+
     const result = await pool.query(sql);
     res.status(200).json({
       message: "Comando executado com sucesso.",
@@ -49,7 +49,7 @@ app.post("/execute-sql", async (req, res) => {
   }
 });
 
-// Inicializa o servidor
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
